@@ -1,9 +1,18 @@
 import os
 import time
-
+import warnings
 import whisper
 import torch
 import langcodes
+
+warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
+
+
+def print_result(audio_name, lang, text, time):
+    print(f"\n{audio_name}")
+    print(f"Language: {lang}")
+    print(f"Transcription: {text}")
+    print(f"Execution time: {time:.2f} seconds")
 
 
 def transcribe_audio(file_path, model="tiny", device="cpu"):
@@ -59,41 +68,24 @@ if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
     audio_file_1 = os.path.join(folder, "sample-zh-01.mp3")
     text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="tiny")
-    print(f"Audio 1 - Language: {lang_1}")
-    print(f"Transcription: {text_1}")
-    print(f"Execution time: {time_1:.2f} seconds\n")
+    print_result("Audio 1 (Chinese 1)", lang_1, text_1, time_1)
 
     audio_file_2 = os.path.join(folder, "sample-zh-02.mp3")
     text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="tiny")
-    print(f"Audio 2 - Language: {lang_2}")
-    print(f"Transcription: {text_2}")
-    print(f"Execution time: {time_2:.2f} seconds")
-
-    # Hello! This is a English audio speech recongnition testing.
+    print_result("Audio 2 (Chinese 2)", lang_2, text_2, time_2)
 
     audio_file_3 = os.path.join(folder, "sample-en-01.mp3")
     text_3, lang_3, time_3 = transcribe_audio(audio_file_3, model="tiny")
-    print(f"Audio 2 - Language: {lang_3}")
-    print(f"Transcription: {text_3}")
-    print(f"Execution time: {time_3:.2f} seconds")
+    print_result("Audio 3 (English)", lang_3, text_3, time_3)
 
-    # 感受痛苦吧:  痛みを感じる
     audio_file_4 = os.path.join(folder, "sample-jp-01.mp3")
     text_4, lang_4, time_4 = transcribe_audio(audio_file_4, model="tiny")
-    print(f"Audio 2 - Language: {lang_4}")
-    print(f"Transcription: {text_4}")
-    print(f"Execution time: {time_4:.2f} seconds")
+    print_result("Audio 4 (Japanese)", lang_4, text_4, time_4)
 
-    # 生日快樂我的朋友：내 친구 생일 축하해.
     audio_file_5 = os.path.join(folder, "sample-kr-01.mp3")
     text_5, lang_5, time_5 = transcribe_audio(audio_file_5, model="tiny")
-    print(f"Audio 2 - Language: {lang_5}")
-    print(f"Transcription: {text_5}")
-    print(f"Execution time: {time_5:.2f} seconds")
+    print_result("Audio 5 (Korean)", lang_5, text_5, time_5)
 
-    # 今天天氣如何？วันนี้อากาศเป็นอย่างไร?
     audio_file_6 = os.path.join(folder, "sample-th-01.mp3")
     text_6, lang_6, time_6 = transcribe_audio(audio_file_6, model="tiny")
-    print(f"Audio 2 - Language: {lang_6}")
-    print(f"Transcription: {text_6}")
-    print(f"Execution time: {time_6:.2f} seconds")
+    print_result("Audio 6 (Thai)", lang_6, text_6, time_6)
