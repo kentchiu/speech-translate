@@ -1,6 +1,7 @@
 import os
 import time
-import warnings
+import difflib
+
 import whisper
 import torch
 import langcodes
@@ -15,7 +16,25 @@ def print_result(audio_name, lang, text, time):
     print(f"Execution time: {time:.2f} seconds")
 
 
-def transcribe_audio(file_path, model="tiny", device="cpu"):
+def print_result(audio_number, lang, text, time, expect, note):
+    print(f"Audio {audio_number} - Language: {lang}")
+    
+    # 使用 difflib 比较 text 和 expect
+    d = difflib.SequenceMatcher(None, expect.split(), text.split())
+    highlighted_text = []
+    for op, i1, i2, j1, j2 in d.get_opcodes():
+        if op == 'equal':
+            highlighted_text.extend(text.split()[j1:j2])
+        else:
+            highlighted_text.extend(f"**{word}**" for word in text.split()[j1:j2])
+    
+    print(f"Expected: {expect}")
+    print(f"Transcription: {' '.join(highlighted_text)}")
+    print(f"Note: {note}")
+    print(f"Execution time: {time:.2f} seconds\n")
+
+
+def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
     """
     Transcribes the given audio file using the specified Whisper model.
 
@@ -66,26 +85,21 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
 
 if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
-    audio_file_1 = os.path.join(folder, "sample-zh-01.mp3")
-    text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="tiny")
-    print_result("Audio 1 (Chinese 1)", lang_1, text_1, time_1)
+    audio_files = [
+        ("sample-zh-01.mp3", "中文語音辨識測試", "中文語音辨識測試"),
+        ("sample-zh-02.mp3", "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮", "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮"),
+        ("sample-en-01.mp3", "Hello! This is a English audio speech recognition testing", "哈囉! 這是一個英文語音辨識測試"),
+        ("sample-jp-01.mp3", "痛みを感じる", "感受痛苦吧"),
+        ("sample-kr-01.mp3", "내 친구 생일 축하해", "生日快樂我的朋友"),
+        ("sample-th-01.mp3", "วันนี้อากาศเป็นอย่างไร?", "今天天氣如何？"),
+    ]
 
-    audio_file_2 = os.path.join(folder, "sample-zh-02.mp3")
-    text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="tiny")
-    print_result("Audio 2 (Chinese 2)", lang_2, text_2, time_2)
-
-    audio_file_3 = os.path.join(folder, "sample-en-01.mp3")
-    text_3, lang_3, time_3 = transcribe_audio(audio_file_3, model="tiny")
-    print_result("Audio 3 (English)", lang_3, text_3, time_3)
-
-    audio_file_4 = os.path.join(folder, "sample-jp-01.mp3")
-    text_4, lang_4, time_4 = transcribe_audio(audio_file_4, model="tiny")
-    print_result("Audio 4 (Japanese)", lang_4, text_4, time_4)
-
-    audio_file_5 = os.path.join(folder, "sample-kr-01.mp3")
-    text_5, lang_5, time_5 = transcribe_audio(audio_file_5, model="tiny")
-    print_result("Audio 5 (Korean)", lang_5, text_5, time_5)
-
-    audio_file_6 = os.path.join(folder, "sample-th-01.mp3")
-    text_6, lang_6, time_6 = transcribe_audio(audio_file_6, model="tiny")
-    print_result("Audio 6 (Thai)", lang_6, text_6, time_6)
+    for i, (file_name, expect, note) in enumerate(audio_files, 1):
+        audio_file = os.path.join(folder, file_name)
+        try:
+            text, lang, time_taken = transcribe_audio(
+                audio_file, model="tiny", expect=expect, note=note
+            )
+            print_result(i, lang, text, time_taken, expect, note)
+        except Exception as e:
+            print(f"Error processing {file_name}: {str(e)}\n")
