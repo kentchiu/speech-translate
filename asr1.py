@@ -9,16 +9,16 @@ import langcodes
 
 def print_result(audio_number, lang, text, time, expect, note):
     print(f"Audio {audio_number} - Language: {lang}")
-    
+
     # 使用 difflib 比较 text 和 expect
     d = difflib.SequenceMatcher(None, expect.split(), text.split())
     highlighted_text = []
     for op, i1, i2, j1, j2 in d.get_opcodes():
-        if op == 'equal':
+        if op == "equal":
             highlighted_text.extend(text.split()[j1:j2])
         else:
-            highlighted_text.extend(f"**{word}**" for word in text.split()[j1:j2])
-    
+            highlighted_text.extend(f"[{word}]" for word in text.split()[j1:j2])
+
     print(f"Expected: {expect}")
     print(f"Transcription: {' '.join(highlighted_text)}")
     print(f"Note: {note}")
@@ -74,12 +74,20 @@ def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
     return transcribed_text, detected_language, execution_time
 
 
-if __name__ == "__main__":
+def evaluate(model="tiny"):
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
     audio_files = [
         ("sample-zh-01.mp3", "中文語音辨識測試", "中文語音辨識測試"),
-        ("sample-zh-02.mp3", "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮", "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮"),
-        ("sample-en-01.mp3", "Hello! This is a English audio speech recognition testing", "哈囉! 這是一個英文語音辨識測試"),
+        (
+            "sample-zh-02.mp3",
+            "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮",
+            "吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮",
+        ),
+        (
+            "sample-en-01.mp3",
+            "Hello! This is a English audio speech recognition testing",
+            "哈囉! 這是一個英文語音辨識測試",
+        ),
         ("sample-jp-01.mp3", "痛みを感じる", "感受痛苦吧"),
         ("sample-kr-01.mp3", "내 친구 생일 축하해", "生日快樂我的朋友"),
         ("sample-th-01.mp3", "วันนี้อากาศเป็นอย่างไร?", "今天天氣如何？"),
@@ -89,8 +97,17 @@ if __name__ == "__main__":
         audio_file = os.path.join(folder, file_name)
         try:
             text, lang, time_taken = transcribe_audio(
-                audio_file, model="tiny", expect=expect, note=note
+                audio_file, model=model, expect=expect, note=note
             )
             print_result(i, lang, text, time_taken, expect, note)
         except Exception as e:
             print(f"Error processing {file_name}: {str(e)}\n")
+
+
+if __name__ == "__main__":
+    print("======= tiny model =======")
+    evaluate("tiny")
+    print("======= small model =======")
+    evaluate("small")
+    print("======= large-v3 model =======")
+    evaluate("large-v3")
