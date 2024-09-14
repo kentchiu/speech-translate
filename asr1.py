@@ -3,6 +3,7 @@ import time
 import whisper
 import torch
 
+
 def transcribe_and_translate(file_path, model="tiny", device="cpu"):
     """
     Transcribes the given audio file using the specified Whisper model and translates to multiple languages.
@@ -47,8 +48,9 @@ def transcribe_and_translate(file_path, model="tiny", device="cpu"):
         "original": original_text,
         "original_lang": original_lang,
         "translations": translations,
-        "execution_time": execution_time
+        "execution_time": execution_time,
     }
+
 
 if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
@@ -56,12 +58,12 @@ if __name__ == "__main__":
 
     for i, audio_file in enumerate(audio_files, 1):
         file_path = os.path.join(folder, audio_file)
-        result = transcribe_and_translate(file_path, model="large-v3")
+        result = transcribe_and_translate(file_path, model="large-tiny")
 
         print(f"Audio {i}:")
         print(f"Original Language: {result['original_lang']}")
         print(f"Original Transcription: {result['original']}")
         print("Translations:")
-        for lang, text in result['translations'].items():
+        for lang, text in result["translations"].items():
             print(f"  {lang}: {text}")
         print(f"Execution time: {result['execution_time']:.2f} seconds\n")
