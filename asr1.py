@@ -1,8 +1,15 @@
-import whisper
-import torch
 import os
-import langcodes
 import time
+
+try:
+    import whisper
+    import torch
+    import langcodes
+except ImportError as e:
+    print(f"Error: {e}")
+    print("Please install the required dependencies by running:")
+    print("pip install openai-whisper torch langcodes")
+    exit(1)
 
 
 def transcribe_audio(file_path, model="tiny", device="cpu"):
