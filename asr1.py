@@ -1,6 +1,7 @@
 import os
 import time
 import whisper
+from whisper import decode
 import torch
 
 
@@ -38,8 +39,8 @@ def transcribe_and_translate(file_path, model="tiny", device="cpu"):
 
     for lang in languages:
         if lang != original_lang:
-            translation = model.transcribe(file_path, task="translate", language=lang)
-            translations[lang] = translation["text"]
+            translation = whisper.decode(model, result["audio"], task="translate", language=lang)
+            translations[lang] = translation.text
 
     end_time = time.time()
     execution_time = end_time - start_time
