@@ -1,5 +1,6 @@
 import os
 import time
+import difflib
 
 import whisper
 import torch
@@ -8,8 +9,18 @@ import langcodes
 
 def print_result(audio_number, lang, text, time, expect, note):
     print(f"Audio {audio_number} - Language: {lang}")
-    print(f"Transcription: {text}")
+    
+    # 使用 difflib 比较 text 和 expect
+    d = difflib.SequenceMatcher(None, expect.split(), text.split())
+    highlighted_text = []
+    for op, i1, i2, j1, j2 in d.get_opcodes():
+        if op == 'equal':
+            highlighted_text.extend(text.split()[j1:j2])
+        else:
+            highlighted_text.extend(f"**{word}**" for word in text.split()[j1:j2])
+    
     print(f"Expected: {expect}")
+    print(f"Transcription: {' '.join(highlighted_text)}")
     print(f"Note: {note}")
     print(f"Execution time: {time:.2f} seconds\n")
 
