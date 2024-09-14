@@ -58,13 +58,42 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
 if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
     audio_file_1 = os.path.join(folder, "sample-zh-01.mp3")
-    text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="large-v3")
+    text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="tiny")
     print(f"Audio 1 - Language: {lang_1}")
     print(f"Transcription: {text_1}")
     print(f"Execution time: {time_1:.2f} seconds\n")
 
     audio_file_2 = os.path.join(folder, "sample-zh-02.mp3")
-    text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="large-v3")
+    text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="tiny")
     print(f"Audio 2 - Language: {lang_2}")
     print(f"Transcription: {text_2}")
     print(f"Execution time: {time_2:.2f} seconds")
+
+    # Hello! This is a English audio speech recongnition testing.
+
+    audio_file_3 = os.path.join(folder, "sample-en-01.mp3")
+    text_3, lang_3, time_3 = transcribe_audio(audio_file_3, model="tiny")
+    print(f"Audio 2 - Language: {lang_3}")
+    print(f"Transcription: {text_3}")
+    print(f"Execution time: {time_3:.2f} seconds")
+
+    # 感受痛苦吧:  痛みを感じる
+    audio_file_4 = os.path.join(folder, "sample-jp-01.mp3")
+    text_4, lang_4, time_4 = transcribe_audio(audio_file_4, model="tiny")
+    print(f"Audio 2 - Language: {lang_4}")
+    print(f"Transcription: {text_4}")
+    print(f"Execution time: {time_4:.2f} seconds")
+
+    # 生日快樂我的朋友：내 친구 생일 축하해.
+    audio_file_5 = os.path.join(folder, "sample-kr-01.mp3")
+    text_5, lang_5, time_5 = transcribe_audio(audio_file_5, model="tiny")
+    print(f"Audio 2 - Language: {lang_5}")
+    print(f"Transcription: {text_5}")
+    print(f"Execution time: {time_5:.2f} seconds")
+
+    # 今天天氣如何？วันนี้อากาศเป็นอย่างไร?
+    audio_file_6 = os.path.join(folder, "sample-th-01.mp3")
+    text_6, lang_6, time_6 = transcribe_audio(audio_file_6, model="tiny")
+    print(f"Audio 2 - Language: {lang_6}")
+    print(f"Transcription: {text_6}")
+    print(f"Execution time: {time_6:.2f} seconds")
