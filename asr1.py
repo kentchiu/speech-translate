@@ -9,14 +9,16 @@ import langcodes
 warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
 
 
-def print_result(audio_name, lang, text, time):
+def print_result(audio_name, lang, text, time, expect, note):
     print(f"\n{audio_name}")
     print(f"Language: {lang}")
     print(f"Transcription: {text}")
+    print(f"Expected: {expect}")
+    print(f"Note (Chinese translation): {note}")
     print(f"Execution time: {time:.2f} seconds")
 
 
-def transcribe_audio(file_path, model="tiny", device="cpu"):
+def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
     """
     Transcribes the given audio file using the specified Whisper model.
 
@@ -24,9 +26,11 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
         file_path (str): Path to the audio file to be transcribed.
         model (str): The Whisper model to use for transcription. Default is "tiny". can be tiny, small, medium, large, large-v2, large-v3
         device (str): The device to run the model on. Default is "cpu". Can be "cpu" or "cuda".
+        expect (str): The expected correct transcription of the original audio. Default is an empty string.
+        note (str): The correct Chinese translation of the audio content. Default is an empty string.
 
     Returns:
-        tuple: A tuple containing the transcribed text, the detected language, and the execution time.
+        tuple: A tuple containing the transcribed text, the detected language, the execution time, the expected text, and the note.
 
     Raises:
         FileNotFoundError: If the specified audio file does not exist.
@@ -62,14 +66,14 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
             # transcribed_text = cc.convert(transcribed_text)
             pass
 
-    return transcribed_text, detected_language, execution_time
+    return transcribed_text, detected_language, execution_time, expect, note
 
 
 if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
     audio_file_1 = os.path.join(folder, "sample-zh-01.mp3")
-    text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="tiny")
-    print_result("Audio 1 (Chinese 1)", lang_1, text_1, time_1)
+    text_1, lang_1, time_1, expect_1, note_1 = transcribe_audio(audio_file_1, model="tiny", expect="中文語音辨識測試", note="Chinese speech recognition test")
+    print_result("Audio 1 (Chinese 1)", lang_1, text_1, time_1, expect_1, note_1)
 
     audio_file_2 = os.path.join(folder, "sample-zh-02.mp3")
     text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="tiny")
