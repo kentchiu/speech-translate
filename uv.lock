@@ -92,6 +92,30 @@ wheels = [
 ]
 
 [[package]]
+name = "langcodes"
+version = "3.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "language-data" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/57/a8/eef8555bb38e9a41451deabd7962b68764f1681bfd43a73e37a0586d8d04/langcodes-3.4.0.tar.gz", hash = "sha256:ae5a77d1a01d0d1e91854a671890892b7ce9abb601ab7327fc5c874f899e1979", size = 190271 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/58/70/4058ab0ebb082b18d06888e711baed7f33354a5e0b363bb627586d8c323a/langcodes-3.4.0-py3-none-any.whl", hash = "sha256:10a4cc078b8e8937d8485d3352312a0a89a3125190db9f2bb2074250eef654e9", size = 182028 },
+]
+
+[[package]]
+name = "language-data"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "marisa-trie" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ad/53/d3657025d32bfacc832769ab3c925f8f4ad2165cd2c8467c2446b21400d1/language_data-1.2.0.tar.gz", hash = "sha256:82a86050bbd677bfde87d97885b17566cfe75dad3ac4f5ce44b52c28f752e773", size = 5137321 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/12/5f/139464da89c49afcc8bb97ebad48818a535220ce01b1f24c61fb80dbe4d0/language_data-1.2.0-py3-none-any.whl", hash = "sha256:77d5cab917f91ee0b2f1aa7018443e911cf8985ef734ca2ba3940770f6a3816b", size = 5385777 },
+]
+
+[[package]]
 name = "llvmlite"
 version = "0.43.0"
 source = { registry = "https://pypi.org/simple" }
@@ -102,6 +126,28 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/bf/f1/4c205a48488e574ee9f6505d50e84370a978c90f08dab41a42d8f2c576b6/llvmlite-0.43.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:eccce86bba940bae0d8d48ed925f21dbb813519169246e2ab292b5092aba121f", size = 42857276 },
     { url = "https://files.pythonhosted.org/packages/00/5f/323c4d56e8401c50185fd0e875fcf06b71bf825a863699be1eb10aa2a9cb/llvmlite-0.43.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:df6509e1507ca0760787a199d19439cc887bfd82226f5af746d6977bd9f66844", size = 43871781 },
     { url = "https://files.pythonhosted.org/packages/c6/94/dea10e263655ce78d777e78d904903faae39d1fc440762be4a9dc46bed49/llvmlite-0.43.0-cp312-cp312-win_amd64.whl", hash = "sha256:7a2872ee80dcf6b5dbdc838763d26554c2a18aa833d31a2635bff16aafefb9c9", size = 28107442 },
+]
+
+[[package]]
+name = "marisa-trie"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ff/3b/e3b9e08c393acc474e7a60df6f5e180af103ad25b0c29cee3ce2564447eb/marisa_trie-1.2.0.tar.gz", hash = "sha256:fedfc67497f8aa2757756b5cf493759f245d321fb78914ce125b6d75daa89b5f", size = 415819 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6d/f1/96d2dffe115b6ca92f59a5d9cc8f7bd68715f50e38f132b92cad8bf88b2d/marisa_trie-1.2.0-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:39b88f126988ea83e8458259297d2b2f9391bfba8f4dc5d7a246813aae1c1def", size = 358929 },
+    { url = "https://files.pythonhosted.org/packages/dc/ff/f00f14025d6afd87614e5ab40762e6bf33b49c3754105d62621e321cf7e8/marisa_trie-1.2.0-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:ec167b006884a90d130ee30518a9aa44cb40211f702bf07031b2d7d4d1db569b", size = 189923 },
+    { url = "https://files.pythonhosted.org/packages/da/21/d261bfde464531614bf5b747dc854de8a9eeb68c5dc2b49ab765174f19cb/marisa_trie-1.2.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:1b855e6286faef5411386bf9d676dfb545c09f7d109f197f347c9366aeb12f07", size = 173558 },
+    { url = "https://files.pythonhosted.org/packages/2b/8a/9f8fae02c25a9dedb3c6815be273be4d82846307ebf5f74caaa12041bb80/marisa_trie-1.2.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8cd287ff323224d87c2b739cba39614aac3737c95a254e0ff70e77d9b8df226d", size = 1354922 },
+    { url = "https://files.pythonhosted.org/packages/56/6c/0a8e06daa6872e0d2a0ad4316f8382a29defc44bca14a9fc1fce2c3bc098/marisa_trie-1.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5d8a1c0361165231f4fb915237470afc8cc4803c535f535f4fc42ca72855b124", size = 1391023 },
+    { url = "https://files.pythonhosted.org/packages/8e/12/0680e07b7fe8c03332cf43c9833a7bf7515f8469f410dd02e51f00e10a03/marisa_trie-1.2.0-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3267f438d258d7d85ee3dde363c4f96c3196ca9cd9e63fe429a59543cc544b15", size = 1328760 },
+    { url = "https://files.pythonhosted.org/packages/0d/69/2752c621f327a83e57da0db13a5070176cb7cbde565789b0384910a15522/marisa_trie-1.2.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:7c87a0c2cccce12b07bfcb70708637c0816970282d966a1531ecda1a24bd1cc8", size = 2230772 },
+    { url = "https://files.pythonhosted.org/packages/e1/8f/7744cd602c76fee9543898151b34b0dcd0200e51aa41be5b28fc20a5313a/marisa_trie-1.2.0-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:d3c0e38f0501951e2322f7274a39b8e2344bbd91ceaa9da439f46022570ddc9d", size = 2384385 },
+    { url = "https://files.pythonhosted.org/packages/79/6b/4f33d4eefeb3c8dbe6a24cbe20e1f9d96bcb3b261885fa80e386216d7f86/marisa_trie-1.2.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:cd88a338c87e6dc130b6cea7b697580c21f0c83a8a8b46671cfecbb713d3fe24", size = 2329101 },
+    { url = "https://files.pythonhosted.org/packages/cb/59/4a30fb46105fe84d30dcb913cb30375b77c473eaed13929d1802464e6a4d/marisa_trie-1.2.0-cp312-cp312-win32.whl", hash = "sha256:5cea60975184f03fbcff51339df0eb44d2abe106a1693983cc64415eb87b897b", size = 128696 },
+    { url = "https://files.pythonhosted.org/packages/cd/93/372821821c62624a258f96de1add12ce032c1eca12eb2ed492c9b4462fcb/marisa_trie-1.2.0-cp312-cp312-win_amd64.whl", hash = "sha256:b04a07b99b62b9bdf3eaf1d44571a3293ce249ce8971944e780c9c709593462f", size = 151131 },
 ]
 
 [[package]]
@@ -375,15 +421,28 @@ wheels = [
 ]
 
 [[package]]
+name = "setuptools"
+version = "74.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/3e/2c/f0a538a2f91ce633a78daaeb34cbfb93a54bd2132a6de1f6cec028eee6ef/setuptools-74.1.2.tar.gz", hash = "sha256:95b40ed940a1c67eb70fc099094bd6e99c6ee7c23aa2306f4d2697ba7916f9c6", size = 1356467 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/9c/9ad11ac06b97e55ada655f8a6bea9d1d3f06e120b178cd578d80e558191d/setuptools-74.1.2-py3-none-any.whl", hash = "sha256:5f4c08aa4d3ebcb57a50c33b1b07e94315d7fc7230f7115e47fc99776c8ce308", size = 1262071 },
+]
+
+[[package]]
 name = "speech-translate"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "langcodes" },
     { name = "openai-whisper" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "openai-whisper", specifier = ">=20231117" }]
+requires-dist = [
+    { name = "langcodes", specifier = ">=3.4.0" },
+    { name = "openai-whisper", specifier = ">=20231117" },
+]
 
 [[package]]
 name = "sympy"

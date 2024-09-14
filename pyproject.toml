@@ -4,6 +4,4 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "openai-whisper>=20231117",
-]
+dependencies = ["langcodes>=3.4.0", "openai-whisper>=20231117"]
