@@ -6,15 +6,6 @@ import whisper
 import torch
 import langcodes
 
-warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
-
-
-def print_result(audio_name, lang, text, time):
-    print(f"\n{audio_name}")
-    print(f"Language: {lang}")
-    print(f"Transcription: {text}")
-    print(f"Execution time: {time:.2f} seconds")
-
 
 def print_result(audio_number, lang, text, time, expect, note):
     print(f"Audio {audio_number} - Language: {lang}")
