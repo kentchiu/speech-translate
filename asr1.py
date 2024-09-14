@@ -1,6 +1,8 @@
+import os
+import time
+
 import whisper
 import torch
-import os
 import langcodes
 
 
@@ -14,16 +16,22 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
         device (str): The device to run the model on. Default is "cpu". Can be "cpu" or "cuda".
 
     Returns:
-        tuple: A tuple containing the transcribed text and the detected language.
+        tuple: A tuple containing the transcribed text, the detected language, and the execution time.
 
     Raises:
         FileNotFoundError: If the specified audio file does not exist.
     """
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Audio file {file_path} does not exist.")
+
+    start_time = time.time()
+
     torch.set_num_threads(8)
     model = whisper.load_model(model).to(device)
     result = model.transcribe(file_path)
+
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     detected_language = result["language"]
     transcribed_text = result["text"]
@@ -44,17 +52,19 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
             # transcribed_text = cc.convert(transcribed_text)
             pass
 
-    return transcribed_text, detected_language
+    return transcribed_text, detected_language, execution_time
 
 
 if __name__ == "__main__":
     folder = "/home/kent/dev/playgroud/speech-translate/test-data"
     audio_file_1 = os.path.join(folder, "sample-zh-01.mp3")
-    text_1, lang_1 = transcribe_audio(audio_file_1, model="large-v3")
+    text_1, lang_1, time_1 = transcribe_audio(audio_file_1, model="large-v3")
     print(f"Audio 1 - Language: {lang_1}")
-    print(f"Transcription: {text_1}\n")
+    print(f"Transcription: {text_1}")
+    print(f"Execution time: {time_1:.2f} seconds\n")
 
     audio_file_2 = os.path.join(folder, "sample-zh-02.mp3")
-    text_2, lang_2 = transcribe_audio(audio_file_2, model="large-v3")
+    text_2, lang_2, time_2 = transcribe_audio(audio_file_2, model="large-v3")
     print(f"Audio 2 - Language: {lang_2}")
     print(f"Transcription: {text_2}")
+    print(f"Execution time: {time_2:.2f} seconds")
