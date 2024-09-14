@@ -9,6 +9,13 @@ import langcodes
 warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
 
 
+def print_result(audio_name, lang, text, time):
+    print(f"\n{audio_name}")
+    print(f"Language: {lang}")
+    print(f"Transcription: {text}")
+    print(f"Execution time: {time:.2f} seconds")
+
+
 def transcribe_audio(file_path, model="tiny", device="cpu"):
     """
     Transcribes the given audio file using the specified Whisper model.
@@ -83,9 +90,3 @@ if __name__ == "__main__":
     audio_file_6 = os.path.join(folder, "sample-th-01.mp3")
     text_6, lang_6, time_6 = transcribe_audio(audio_file_6, model="tiny")
     print_result("Audio 6 (Thai)", lang_6, text_6, time_6)
-
-def print_result(audio_name, lang, text, time):
-    print(f"\n{audio_name}")
-    print(f"Language: {lang}")
-    print(f"Transcription: {text}")
-    print(f"Execution time: {time:.2f} seconds")
