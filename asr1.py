@@ -1,15 +1,9 @@
 import os
 import time
 
-try:
-    import whisper
-    import torch
-    import langcodes
-except ImportError as e:
-    print(f"Error: {e}")
-    print("Please install the required dependencies by running:")
-    print("pip install openai-whisper torch langcodes")
-    exit(1)
+import whisper
+import torch
+import langcodes
 
 
 def transcribe_audio(file_path, model="tiny", device="cpu"):
@@ -29,13 +23,13 @@ def transcribe_audio(file_path, model="tiny", device="cpu"):
     """
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Audio file {file_path} does not exist.")
-    
+
     start_time = time.time()
-    
+
     torch.set_num_threads(8)
     model = whisper.load_model(model).to(device)
     result = model.transcribe(file_path)
-    
+
     end_time = time.time()
     execution_time = end_time - start_time
 
