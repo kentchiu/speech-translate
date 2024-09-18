@@ -7,8 +7,10 @@ import torch
 import langcodes
 
 
-def print_result(audio_number, lang, text, time, expect, note):
-    print(f"Audio {audio_number} - Language: {lang}")
+def print_result(model, audio_number, filename, lang, text, time, expect, note):
+    print(f"Model: whisper-{model}")
+    print(f"Audio: {filename}")
+    print(f"Language: {lang}")
 
     # 使用 difflib 比较 text 和 expect
     d = difflib.SequenceMatcher(None, expect.split(), text.split())
@@ -23,6 +25,8 @@ def print_result(audio_number, lang, text, time, expect, note):
     print(f"Transcription: {' '.join(highlighted_text)}")
     print(f"Note: {note}")
     print(f"Execution time: {time:.2f} seconds\n")
+    print("=============================")
+    print("\n\n\n")
 
 
 def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
@@ -31,7 +35,7 @@ def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
 
     Args:
         file_path (str): Path to the audio file to be transcribed.
-        model (str): The Whisper model to use for transcription. Default is "tiny". can be tiny, small, medium, large, large-v2, large-v3
+        model (str): The Whisper model to use for transcription. Default is "tiny". can be tiny, base, small, medium, large, large-v2, large-v3
         device (str): The device to run the model on. Default is "cpu". Can be "cpu" or "cuda".
 
     Returns:
@@ -45,11 +49,19 @@ def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
 
     start_time = time.time()
 
-    torch.set_num_threads(8)
+    torch.set_num_threads(4)
+    time1 = time.time()
     model = whisper.load_model(model).to(device)
+    time2 = time.time()
     result = model.transcribe(file_path)
+    time3 = time.time()
 
     end_time = time.time()
+    # print all time diff
+    #
+    print(f"load model time: {time2 - time1}")
+    print(f"transcribe time: {time3 - time2}")
+
     execution_time = end_time - start_time
 
     detected_language = result["language"]
@@ -99,15 +111,13 @@ def evaluate(model="tiny"):
             text, lang, time_taken = transcribe_audio(
                 audio_file, model=model, expect=expect, note=note
             )
-            print_result(i, lang, text, time_taken, expect, note)
+            print_result(model, i, file_name, lang, text, time_taken, expect, note)
         except Exception as e:
             print(f"Error processing {file_name}: {str(e)}\n")
 
 
 if __name__ == "__main__":
-    print("======= tiny model =======")
-    evaluate("tiny")
-    print("======= small model =======")
-    evaluate("small")
-    print("======= large-v3 model =======")
+    # evaluate("tiny")
+    # evaluate("small")
+    # evaluate("medium")
     evaluate("large-v3")
