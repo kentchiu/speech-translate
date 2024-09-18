@@ -105,7 +105,7 @@ def transcribe_audio(file_path, model, device="cpu", expect="", note=""):
 
 
 def evaluate(model="tiny"):
-    folder = "/home/kent/dev/playgroud/speech-translate/test-data"
+    folder = "test-data"
     audio_files = [
         ("sample-zh-01.mp3", "中文語音辨識測試", "中文語音辨識測試"),
         (
