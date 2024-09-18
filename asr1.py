@@ -7,31 +7,45 @@ import whisper
 import torch
 import langcodes
 
+import csv
+
+from whisper.utils import re
+
 # Suppress specific warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="torch.cuda")
 warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
 
 
-def print_result(model, audio_number, filename, lang, text, time, expect, note):
-    print(f"Model: whisper-{model}")
-    print(f"Audio: {filename}")
-    print(f"Language: {lang}")
+class Record:
+    def __init__(
+        self,
+        model: str = "",
+        filename: str = "",
+        lang: str = "",
+        load_time: float = 0,
+        transcribe_time: float = 0,
+        expect: str = "",
+        note: str = "",
+        transcribe: str = "",
+    ):
+        self.model = model
+        self.filename = filename
+        self.lang = lang
+        self.transcribe = transcribe
+        self.load_time = load_time  # 使用 float 來儲存時間
+        self.transcribe_time = transcribe_time  # 使用 float 來儲存時間
+        self.expect = expect
+        self.note = note
 
-    # 使用 difflib 比较 text 和 expect
-    d = difflib.SequenceMatcher(None, expect.split(), text.split())
-    highlighted_text = []
-    for op, i1, i2, j1, j2 in d.get_opcodes():
-        if op == "equal":
-            highlighted_text.extend(text.split()[j1:j2])
-        else:
-            highlighted_text.extend(f"[{word}]" for word in text.split()[j1:j2])
-
-    print(f"Expected: {expect}")
-    print(f"Transcription: {' '.join(highlighted_text)}")
-    print(f"Note: {note}")
-    print(f"Execution time: {time:.2f} seconds\n")
-    print("=============================")
-    print("\n\n\n")
+    def display_info(self):
+        print(f"Model: {self.model}")
+        print(f"Filename: {self.filename}")
+        print(f"Lang: {self.lang}")
+        print(f"Load Time: {self.load_time}")
+        print(f"Transcribe Time: {self.transcribe_time}")
+        print(f"Expect: {self.expect}")
+        print(f"Transcribe: {self.transcribe}")
+        print(f"Note: {self.note}")
 
 
 def transcribe_audio(file_path, model, device="cpu", expect="", note=""):
@@ -52,17 +66,11 @@ def transcribe_audio(file_path, model, device="cpu", expect="", note=""):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Audio file {file_path} does not exist.")
 
-    start_time = time.time()
-
     torch.set_num_threads(4)
-    time1 = time.time()
-    result = model.transcribe(file_path)
-    time2 = time.time()
 
+    start_time = time.time()
+    result = model.transcribe(file_path)
     end_time = time.time()
-    # print all time diff
-    #
-    print(f"transcribe time: {time2 - time1}")
 
     execution_time = end_time - start_time
 
@@ -119,23 +127,79 @@ def evaluate(model="tiny"):
         ("sample-th-01.mp3", "วันนี้อากาศเป็นอย่างไร?", "今天天氣如何？"),
     ]
 
+    print(f"============= {mode} ============")
     # Load the model once before the loop
     device = "cpu"  # or "cuda" if you have a GPU
+    time1 = time.time()
     loaded_model = whisper.load_model(model).to(device)
+    time2 = time.time()
+
+    records = []
 
     for i, (file_name, expect, note) in enumerate(audio_files, 1):
+        record = Record()
         audio_file = os.path.join(folder, file_name)
+        record.model = model
         try:
-            text, lang, time_taken = transcribe_audio(
+            transcribe, lang, time_taken = transcribe_audio(
                 audio_file, model=loaded_model, device=device, expect=expect, note=note
             )
-            print_result(model, i, file_name, lang, text, time_taken, expect, note)
+            record.filename = file_name
+            record.lang = lang
+            record.load_time = time2 - time1
+            record.transcribe_time = time_taken
+            record.expect = expect
+            record.note = note
+            record.transcribe = transcribe
+            record.display_info()
+            records.append(record)
         except Exception as e:
             print(f"Error processing {file_name}: {str(e)}\n")
+    return records
+
+
+def write_records_to_csv(records, filename):
+    """
+    Writes the records to a CSV file with headers.
+
+    Args:
+        records (list): List of Record objects.
+        filename (str): Name of the CSV file to write to.
+    """
+    with open(filename, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(
+            [
+                "Model",
+                "Filename",
+                "Lang",
+                "Load Time",
+                "Transcribe Time",
+                "Expect",
+                "Note",
+                "Transcribe",
+            ]
+        )
+        for record in records:
+            writer.writerow(
+                [
+                    record.model,
+                    record.filename,
+                    record.lang,
+                    record.load_time,
+                    record.transcribe_time,
+                    record.expect,
+                    record.note,
+                    record.transcribe,
+                ]
+            )
 
 
 if __name__ == "__main__":
-    # evaluate("tiny")
-    # evaluate("small")
-    # evaluate("medium")
-    evaluate("large-v3")
+    records = []
+    records.extend(evaluate("tiny"))
+    records.extend(evaluate("small"))
+    records.extend(evaluate("medium"))
+    records.extend(evaluate("large-v3"))
+
+    write_records_to_csv(records, "evaluation_results.csv")

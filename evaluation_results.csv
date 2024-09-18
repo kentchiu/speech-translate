@@ -1,0 +1,13 @@
+Model,Filename,Lang,Load Time,Transcribe Time,Expect,Note,Transcribe
+tiny,sample-zh-01.mp3,zh,0.2985682487487793,0.5897862911224365,中文語音辨識測試,中文語音辨識測試,中文語音便宜測試
+tiny,sample-zh-02.mp3,zh,0.2985682487487793,0.5341067314147949,"吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮","吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮",吃葡萄布土葡萄皮不吃葡萄大葡萄皮
+tiny,sample-en-01.mp3,en,0.2985682487487793,0.4541134834289551,Hello! This is a English audio speech recognition testing,哈囉! 這是一個英文語音辨識測試," Hello, this is the English Audio Speedary Congmission Testing."
+tiny,sample-jp-01.mp3,ja,0.2985682487487793,0.45039892196655273,痛みを感じる,感受痛苦吧,痛みを感じる
+tiny,sample-kr-01.mp3,ko,0.2985682487487793,0.4253873825073242,내 친구 생일 축하해,生日快樂我的朋友, 내 친구 생길 축하해
+tiny,sample-th-01.mp3,th,0.2985682487487793,0.48493003845214844,วันนี้อากาศเป็นอย่างไร?,今天天氣如何？,วันนี้ อากาดเป็นอย่างราย
+small,sample-zh-01.mp3,zh,1.4348664283752441,2.701327323913574,中文語音辨識測試,中文語音辨識測試,中文語音辨識測試
+small,sample-zh-02.mp3,zh,1.4348664283752441,3.1226446628570557,"吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮","吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮","吃葡萄不吐葡萄皮,不吃葡萄倒吐葡萄皮。"
+small,sample-en-01.mp3,en,1.4348664283752441,2.7811057567596436,Hello! This is a English audio speech recognition testing,哈囉! 這是一個英文語音辨識測試, Hello. This is the English Audio-Speech Recognition Testing.
+small,sample-jp-01.mp3,ja,1.4348664283752441,2.6628048419952393,痛みを感じる,感受痛苦吧,痛みを感じる
+small,sample-kr-01.mp3,ko,1.4348664283752441,3.105909585952759,내 친구 생일 축하해,生日快樂我的朋友, 내 친구 생일 축하해
+small,sample-th-01.mp3,th,1.4348664283752441,3.138160467147827,วันนี้อากาศเป็นอย่างไร?,今天天氣如何？,วันนี้ อากาศเป็นอย่างไร
