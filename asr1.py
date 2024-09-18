@@ -1,10 +1,15 @@
 import os
 import time
 import difflib
+import warnings
 
 import whisper
 import torch
 import langcodes
+
+# Suppress specific warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="torch.cuda")
+warnings.filterwarnings("ignore", category=UserWarning, module="whisper.transcribe")
 
 
 def print_result(model, audio_number, filename, lang, text, time, expect, note):
@@ -29,13 +34,13 @@ def print_result(model, audio_number, filename, lang, text, time, expect, note):
     print("\n\n\n")
 
 
-def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
+def transcribe_audio(file_path, model, device="cpu", expect="", note=""):
     """
     Transcribes the given audio file using the specified Whisper model.
 
     Args:
         file_path (str): Path to the audio file to be transcribed.
-        model (str): The Whisper model to use for transcription. Default is "tiny". can be tiny, base, small, medium, large, large-v2, large-v3
+        model (WhisperModel): The loaded Whisper model to use for transcription.
         device (str): The device to run the model on. Default is "cpu". Can be "cpu" or "cuda".
 
     Returns:
@@ -51,16 +56,13 @@ def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
 
     torch.set_num_threads(4)
     time1 = time.time()
-    model = whisper.load_model(model).to(device)
-    time2 = time.time()
     result = model.transcribe(file_path)
-    time3 = time.time()
+    time2 = time.time()
 
     end_time = time.time()
     # print all time diff
     #
-    print(f"load model time: {time2 - time1}")
-    print(f"transcribe time: {time3 - time2}")
+    print(f"transcribe time: {time2 - time1}")
 
     execution_time = end_time - start_time
 
@@ -82,6 +84,18 @@ def transcribe_audio(file_path, model="tiny", device="cpu", expect="", note=""):
             # cc = OpenCC('s2t')  # 簡體到繁體
             # transcribed_text = cc.convert(transcribed_text)
             pass
+
+    # 確保檢測到的語言是正確的
+    if detected_language in ["zh", "yue"]:
+        detected_language = "zh"
+    elif detected_language in ["ja"]:
+        detected_language = "ja"
+    elif detected_language in ["ko"]:
+        detected_language = "ko"
+    elif detected_language in ["th"]:
+        detected_language = "th"
+    elif detected_language in ["en"]:
+        detected_language = "en"
 
     return transcribed_text, detected_language, execution_time
 
@@ -105,11 +119,15 @@ def evaluate(model="tiny"):
         ("sample-th-01.mp3", "วันนี้อากาศเป็นอย่างไร?", "今天天氣如何？"),
     ]
 
+    # Load the model once before the loop
+    device = "cpu"  # or "cuda" if you have a GPU
+    loaded_model = whisper.load_model(model).to(device)
+
     for i, (file_name, expect, note) in enumerate(audio_files, 1):
         audio_file = os.path.join(folder, file_name)
         try:
             text, lang, time_taken = transcribe_audio(
-                audio_file, model=model, expect=expect, note=note
+                audio_file, model=loaded_model, device=device, expect=expect, note=note
             )
             print_result(model, i, file_name, lang, text, time_taken, expect, note)
         except Exception as e:
