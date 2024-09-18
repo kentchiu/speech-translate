@@ -199,3 +199,5 @@ if __name__ == "__main__":
     records.extend(evaluate("large-v3"))
 
     write_records_to_csv(records, "dist/cpu-kent.csv")
+    # write_records_to_csv(records, "dist/cpu-3080.csv")
+    # write_records_to_csv(records, "dist/gpu-3080.csv")
