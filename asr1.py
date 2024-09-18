@@ -1,15 +1,11 @@
+import csv
 import os
 import time
-import difflib
 import warnings
 
-import whisper
-import torch
 import langcodes
-
-import csv
-
-from whisper.utils import re
+import torch
+import whisper
 
 # Suppress specific warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="torch.cuda")
@@ -127,7 +123,7 @@ def evaluate(model="tiny"):
         ("sample-th-01.mp3", "วันนี้อากาศเป็นอย่างไร?", "今天天氣如何？"),
     ]
 
-    print(f"============= {mode} ============")
+    print(f"============= {model} ============")
     # Load the model once before the loop
     device = "cpu"  # or "cuda" if you have a GPU
     time1 = time.time()
@@ -202,4 +198,4 @@ if __name__ == "__main__":
     records.extend(evaluate("medium"))
     records.extend(evaluate("large-v3"))
 
-    write_records_to_csv(records, "evaluation_results.csv")
+    write_records_to_csv(records, "dist/cpu-kent.csv")
