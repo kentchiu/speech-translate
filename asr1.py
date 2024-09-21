@@ -28,8 +28,8 @@ class Record:
         self.filename = filename
         self.lang = lang
         self.transcribe = transcribe
-        self.load_time = load_time  # 使用 float 來儲存時間
-        self.transcribe_time = transcribe_time  # 使用 float 來儲存時間
+        self.load_time = load_time
+        self.transcribe_time = transcribe_time
         self.expect = expect
         self.note = note
 
