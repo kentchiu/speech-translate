@@ -44,15 +44,16 @@ def transcribe_and_translate(audio_file, model):
     start_time = time.time()
     # 轉錄原始語音
     result = model.transcribe(audio_file)
+    print(f"🟥[1]: translate.py:46: result={result}")
 
-    # 翻譯成英文
-    translation_en = model.transcribe(audio_file, task="translate", language="en")
+    # # 翻譯成英文
+    # translation_en = model.transcribe(audio_file, task="translate", language="en")
     end_time = time.time()
 
     return {
         "transcription": result["text"],
         "language": result["language"],
-        "translation": translation_en["text"],
+        "translation": result["text"],
         "time": end_time - start_time,
     }
 
@@ -115,7 +116,7 @@ def transscribe_all(
     return records
 
 
-def test_results(filename, model_sizes=["tiny", "small"]):
+def test_results(filename, model_sizes=["small", "medium", "large-v3"]):
     records = []
     langs = ["en", "zh", "ja", "ko", "th"]
 
