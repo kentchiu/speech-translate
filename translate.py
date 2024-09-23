@@ -129,7 +129,8 @@ def main():
     records = test_results("serenity")
     records += test_results("spiderman")
     records += test_results("thinking")
-    write_records_to_csv(records, "dist/test-results.csv")
+    filename = f"dist/translation-{time.strftime('%Y%m%d-%H%M')}.csv"
+    write_records_to_csv(records, filename)
 
 
 if __name__ == "__main__":
