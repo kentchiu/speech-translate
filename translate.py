@@ -52,7 +52,7 @@ def transcribe_and_translate(audio_file, model):
     return {
         "transcription": result["text"],
         "language": result["language"],
-        "translation": translation,
+        "translation": translation["text"],
         "time": end_time - start_time,
     }
 
