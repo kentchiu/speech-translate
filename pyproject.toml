@@ -8,4 +8,5 @@ dependencies = [
     "aider-chat>=0.57.1",
     "langcodes>=3.4.0",
     "openai-whisper>=20231117",
+    "transformers>=4.44.2",
 ]
