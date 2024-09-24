@@ -8,9 +8,12 @@ model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v3
 
 # 轉錄語音
 # Load the audio file
-waveform, sampling_rate = torchaudio.load("test-data/serenity-zh.mp3")
-# Pass the loaded audio data and the sampling rate to the processor
-input_features = processor(audio=waveform.squeeze().numpy(), sampling_rate=sampling_rate, return_tensors="pt").input_features
+waveform, original_sampling_rate = torchaudio.load("test-data/serenity-zh.mp3")
+# Resample the audio to 16000 Hz
+resampler = torchaudio.transforms.Resample(orig_freq=original_sampling_rate, new_freq=16000)
+waveform = resampler(waveform)
+# Pass the resampled audio data and the new sampling rate to the processor
+input_features = processor(audio=waveform.squeeze().numpy(), sampling_rate=16000, return_tensors="pt").input_features
 transcription_ids = model.generate(input_features)
 transcription = processor.decode(transcription_ids[0], skip_special_tokens=True)
 print(f"Transcription: {transcription}")
