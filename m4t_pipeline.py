@@ -38,8 +38,12 @@ class Record:
 # "https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac"
 
 model_name = "facebook/seamless-m4t-v2-large"
-transcriber = pipeline(task="automatic-speech-recognition", model=model_name)
-translator = pipeline(task="translation", model=model_name)
+# device = -1  # -1 for CPU
+device = 0  # 0 for CUDA
+transcriber = pipeline(
+    task="automatic-speech-recognition", model=model_name, device=device
+)
+translator = pipeline(task="translation", model=model_name, device=-1)
 
 
 def transcribe(audio_file: str, target_lang: str = "eng"):

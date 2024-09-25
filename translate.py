@@ -1,4 +1,3 @@
-import os
 import whisper
 import time
 import csv
@@ -17,7 +16,7 @@ class Record:
         filename: str = "",
         lang: str = "",
         load_time: float = 0,
-        transcribe_time: float = 0,
+        transcription_time: float = 0,
         transcription: str = "",
         translation: str = "",
     ):
@@ -25,7 +24,7 @@ class Record:
         self.filename = filename
         self.lang = lang
         self.load_time = load_time
-        self.transcribe_time = transcribe_time
+        self.transcription_time = transcription_time
         self.transcription = transcription
         self.translation = translation
 
@@ -34,7 +33,7 @@ class Record:
         print(f"Filename: {self.filename}")
         print(f"Lang: {self.lang}")
         print(f"Load Time: {self.load_time}")
-        print(f"Transcribe Time: {self.transcribe_time}")
+        print(f"Transcription Time: {self.transcription_time}")
         print(f"Transcripition: {self.transcription}")
         print(f"translation: {self.translation}")
 
@@ -79,7 +78,7 @@ def write_records_to_csv(records, filename):
                     record.filename,
                     record.lang,
                     record.load_time,
-                    record.transcribe_time,
+                    record.transcription_time,
                     record.transcription,
                     record.translation,
                 ]
@@ -105,7 +104,7 @@ def transscribe_all(
             lang=result["language"],
             transcription=result["transcription"],
             translation=result["translation"],
-            transcribe_time=result["time"],
+            transcription_time=result["time"],
             load_time=time_2 - time_1,
         )
         records.append(record)
@@ -126,9 +125,9 @@ def test_results(filename, model_sizes=["small", "medium", "large-v3"]):
 
 
 def main():
-    records = test_results("serenity")
-    records += test_results("spiderman")
-    records += test_results("thinking")
+    records = test_results("serenity", model_sizes=["large-v3"])
+    records += test_results("spiderman", model_sizes=["large-v3"])
+    records += test_results("thinking", model_sizes=["large-v3"])
     filename = f"dist/translation-{time.strftime('%Y%m%d-%H%M')}.csv"
     write_records_to_csv(records, filename)
 
