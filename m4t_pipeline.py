@@ -31,7 +31,7 @@ class Record:
         print(f"Lang: {self.lang}")
         print(f"Translation Time: {self.translation_time}")
         print(f"Transcriiption Time: {self.transcription_time}")
-        print(f"Transcripition: {self.transcription}")
+        print(f"Transcription: {self.transcription}")
         print(f"translation: {self.translation}")
 
 
@@ -165,7 +165,7 @@ def main():
     records = test_results("serenity")
     records += test_results("spiderman")
     records += test_results("thinking")
-    filename = f"dist/translation-{time.strftime('%Y%m%d-%H%M')}.csv"
+    filename = f"dist/m4t-{time.strftime('%Y%m%d-%H%M')}.csv"
     write_records_to_csv(records, filename)
 
 

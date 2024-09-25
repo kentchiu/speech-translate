@@ -38,15 +38,15 @@ class Record:
         print(f"Filename: {self.filename}")
         print(f"Lang: {self.lang}")
         print(f"Load Time: {self.load_time}")
-        print(f"Transcribe Time: {self.transcribe_time}")
+        print(f"Transcription Time: {self.transcribe_time}")
         print(f"Expect: {self.expect}")
-        print(f"Transcribe: {self.transcribe}")
+        print(f"Transcription: {self.transcribe}")
         print(f"Note: {self.note}")
 
 
 def transcribe_audio(file_path, model, device="cpu", expect="", note=""):
     """
-    Transcribes the given audio file using the specified Whisper model.
+    Transcriptions the given audio file using the specified Whisper model.
 
     Args:
         file_path (str): Path to the audio file to be transcribed.
@@ -170,10 +170,10 @@ def write_records_to_csv(records, filename):
                 "Filename",
                 "Lang",
                 "Load Time",
-                "Transcribe Time",
+                "Transcription Time",
                 "Expect",
                 "Note",
-                "Transcribe",
+                "Transcription",
             ]
         )
         for record in records:

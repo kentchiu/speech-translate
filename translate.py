@@ -1,3 +1,4 @@
+from transformers.agents import translation
 import whisper
 import time
 import csv
@@ -15,7 +16,7 @@ class Record:
         model: str = "",
         filename: str = "",
         lang: str = "",
-        load_time: float = 0,
+        translation_time: float = 0,
         transcription_time: float = 0,
         transcription: str = "",
         translation: str = "",
@@ -23,36 +24,37 @@ class Record:
         self.model = model
         self.filename = filename
         self.lang = lang
-        self.load_time = load_time
+        self.translation_time = translation_time
         self.transcription_time = transcription_time
-        self.transcription = transcription
         self.translation = translation
+        self.transcription = transcription
 
     def display_info(self):
         print(f"Model: {self.model}")
         print(f"Filename: {self.filename}")
         print(f"Lang: {self.lang}")
-        print(f"Load Time: {self.load_time}")
-        print(f"Transcription Time: {self.transcription_time}")
-        print(f"Transcripition: {self.transcription}")
         print(f"translation: {self.translation}")
+        print(f"Translation Time: {self.translation_time}")
+        print(f"Transcription: {self.transcription}")
+        print(f"Transcription Time: {self.transcription_time}")
 
 
 def transcribe_and_translate(audio_file, model):
     """使用指定的模型轉錄音頻文件並翻譯成英文"""
-    start_time = time.time()
+    time1 = time.time()
     # 轉錄原始語音
     result = model.transcribe(audio_file)
-
+    time2 = time.time()
     # # 翻譯成英文
     translation = model.transcribe(audio_file, task="translate")
-    end_time = time.time()
+    time3 = time.time()
 
     return {
-        "transcription": result["text"],
         "language": result["language"],
         "translation": translation["text"],
-        "time": end_time - start_time,
+        "translation_time": time2 - time1,
+        "transcription": result["text"],
+        "transcription_time": time3 - time2,
     }
 
 
@@ -65,10 +67,10 @@ def write_records_to_csv(records, filename):
                 "Model",
                 "Filename",
                 "Lang",
-                "Load Time",
-                "Transcribe Time",
-                "Transcription",
+                "Translation Time",
+                "Transcription Time",
                 "Translation",
+                "Transcription",
             ]
         )
         for record in records:
@@ -77,7 +79,7 @@ def write_records_to_csv(records, filename):
                     record.model,
                     record.filename,
                     record.lang,
-                    record.load_time,
+                    record.translation_time,
                     record.transcription_time,
                     record.transcription,
                     record.translation,
@@ -89,9 +91,7 @@ def transscribe_all(
     filename: str, langs=["en", "zh", "ja", "ko", "th"], model_size="tiny"
 ):
     test_data_dir = "test-data"
-    time_1 = time.time()
     model = whisper.load_model(model_size)
-    time_2 = time.time()
     records = []
 
     audio_files = [f"{test_data_dir}/{filename}-{lang}.mp3" for lang in langs]
@@ -104,8 +104,8 @@ def transscribe_all(
             lang=result["language"],
             transcription=result["transcription"],
             translation=result["translation"],
-            transcription_time=result["time"],
-            load_time=time_2 - time_1,
+            transcription_time=round(result["transcription_time"], 1),
+            translation_time=round(result["translation_time"], 1),
         )
         records.append(record)
         print(record.display_info())
@@ -128,7 +128,7 @@ def main():
     records = test_results("serenity", model_sizes=["large-v3"])
     records += test_results("spiderman", model_sizes=["large-v3"])
     records += test_results("thinking", model_sizes=["large-v3"])
-    filename = f"dist/translation-{time.strftime('%Y%m%d-%H%M')}.csv"
+    filename = f"dist/whisper-{time.strftime('%Y%m%d-%H%M')}.csv"
     write_records_to_csv(records, filename)
 
 
