@@ -162,9 +162,9 @@ def test_results(filename):
 
 
 def main():
-    # records = test_results("serenity")
-    # records += test_results("spiderman")
-    records = test_results("thinking")
+    records = test_results("serenity")
+    records += test_results("spiderman")
+    records += test_results("thinking")
     filename = f"dist/translation-{time.strftime('%Y%m%d-%H%M')}.csv"
     write_records_to_csv(records, filename)
 
