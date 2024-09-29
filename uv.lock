@@ -1617,6 +1617,21 @@ wheels = [
 ]
 
 [[package]]
+name = "sacremoses"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "joblib" },
+    { name = "regex" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/51/fbdc4af4f6e85d26169e28be3763fe50ddfd0d4bf8b871422b0788dcc4d2/sacremoses-0.1.1.tar.gz", hash = "sha256:b6fd5d3a766b02154ed80b962ddca91e1fd25629c0978c7efba21ebccf663934", size = 883188 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0b/f0/89ee2bc9da434bd78464f288fdb346bc2932f2ee80a90b2a4bbbac262c74/sacremoses-0.1.1-py3-none-any.whl", hash = "sha256:31e04c98b169bfd902144824d191825cd69220cdb4ae4bcf1ec58a7db5587b1a", size = 897476 },
+]
+
+[[package]]
 name = "safetensors"
 version = "0.4.5"
 source = { registry = "https://pypi.org/simple" }
@@ -1804,6 +1819,7 @@ dependencies = [
     { name = "librosa" },
     { name = "openai-whisper" },
     { name = "protobuf" },
+    { name = "sacremoses" },
     { name = "sentencepiece" },
     { name = "torch" },
     { name = "torchaudio" },
@@ -1824,6 +1840,7 @@ requires-dist = [
     { name = "librosa", specifier = ">=0.10.2.post1" },
     { name = "openai-whisper", specifier = ">=20231117" },
     { name = "protobuf", specifier = ">=5.28.2" },
+    { name = "sacremoses", specifier = ">=0.1.1" },
     { name = "sentencepiece", specifier = ">=0.2.0" },
     { name = "torch", specifier = ">=2.3.1" },
     { name = "torchaudio", specifier = ">=2.3.1" },

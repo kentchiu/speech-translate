@@ -12,6 +12,7 @@ dependencies = [
   "librosa>=0.10.2.post1",
   "openai-whisper>=20231117",
   "protobuf>=5.28.2",
+  "sacremoses>=0.1.1",
   "sentencepiece>=0.2.0",
   "torch>=2.3.1",
   "torchaudio>=2.3.1",
