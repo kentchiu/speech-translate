@@ -15,7 +15,7 @@ class T5Translator:
     3. 使用 test_translations 方法測試不同語言間的翻譯
     """
 
-    MODEL_NAME = "t5-small"
+    MODEL_NAME = "t5-base"
     # 支持的語言及其對應的語言代碼
     LANG_CODES = {"中文": "zh", "英文": "en", "日文": "ja", "韓文": "ko", "泰文": "th"}
 
@@ -39,7 +39,13 @@ class T5Translator:
         input_text = task_prefix + text
         input_ids = self.tokenizer(input_text, return_tensors="pt").input_ids
 
-        outputs = self.model.generate(input_ids, max_length=128)
+        outputs = self.model.generate(
+            input_ids,
+            max_length=128,
+            num_beams=4,
+            length_penalty=0.6,
+            early_stopping=True
+        )
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     def test_translations(self):
