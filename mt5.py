@@ -39,7 +39,18 @@ class MT5Translator:
         input_text = task_prefix + text
         input_ids = self.tokenizer(input_text, return_tensors="pt").input_ids
 
-        outputs = self.model.generate(input_ids, max_length=128)
+        outputs = self.model.generate(
+            input_ids,
+            max_length=128,
+            num_beams=5,
+            length_penalty=0.6,
+            no_repeat_ngram_size=2,
+            early_stopping=True,
+            do_sample=True,
+            top_k=50,
+            top_p=0.95,
+            temperature=0.7
+        )
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     def test_translations(self):
