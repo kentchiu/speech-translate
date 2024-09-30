@@ -16,9 +16,10 @@ def translate(text, source_lang, target_lang):
     inputs = tokenizer(text, return_tensors="pt")
 
     translated = translator(
-        inputs=inputs["input_ids"],
+        text,
         src_lang=lang_codes[source_lang],
         tgt_lang=lang_codes[target_lang],
+        **inputs,
     )
     return translated[0]["translation_text"]
 
@@ -39,3 +40,4 @@ for source_lang, source_text in test_sentences.items():
         if source_lang != target_lang:
             translated = translate(source_text, source_lang, target_lang)
             print(f"翻譯成 {target_lang}: {translated}")
+
