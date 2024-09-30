@@ -13,13 +13,11 @@ lang_codes = {"中文": "zh", "英文": "en", "日文": "ja", "韓文": "ko", "�
 def translate(text, source_lang, target_lang):
     tokenizer = M2M100Tokenizer.from_pretrained(model_name)
     tokenizer.src_lang = lang_codes[source_lang]
-    inputs = tokenizer(text, return_tensors="pt")
 
     translated = translator(
         text,
         src_lang=lang_codes[source_lang],
         tgt_lang=lang_codes[target_lang],
-        **inputs,
     )
     return translated[0]["translation_text"]
 
