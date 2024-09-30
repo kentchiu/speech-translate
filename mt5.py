@@ -15,7 +15,7 @@ class MT5Translator:
     3. 使用 test_translations 方法測試不同語言間的翻譯
     """
 
-    MODEL_NAME = "google/mt5-xxl"
+    MODEL_NAME = "google/mt5-large"
     # 支持的語言及其對應的語言代碼
     LANG_CODES = {"中文": "zh", "英文": "en", "日文": "ja", "韓文": "ko", "泰文": "th"}
 
