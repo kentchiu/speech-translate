@@ -16,10 +16,9 @@ def translate(text, source_lang, target_lang):
     inputs = tokenizer(text, return_tensors="pt")
 
     translated = translator(
-        text,
+        **inputs,
         src_lang=lang_codes[source_lang],
         tgt_lang=lang_codes[target_lang],
-        **inputs,
     )
     return translated[0]["translation_text"]
 
