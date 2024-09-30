@@ -1,11 +1,40 @@
+"""
+m2m100.py - M2M100 多語言翻譯模型實現
+
+這個模塊實現了使用 Facebook 的 M2M100 模型進行多語言翻譯的功能。
+M2M100 是一個能夠在 100 種語言之間直接翻譯的模型。
+
+主要功能：
+1. 初始化 M2M100 翻譯模型
+2. 提供翻譯功能，支持中文、英文、日文、韓文和泰文之間的互譯
+3. 包含一個測試函數，用於展示不同語言間的翻譯效果
+
+使用方法：
+1. 創建 M2M100Translator 類的實例
+2. 使用 translate 方法進行翻譯
+3. 使用 test_translations 方法測試不同語言間的翻譯
+
+範例：
+    translator = M2M100Translator()
+    translated_text = translator.translate("你好", "中文", "英文")
+    print(translated_text)
+
+注意：
+- 首次運行時，模型會自動下載，可能需要一些時間
+- 翻譯質量可能因語言對和具體內容而異
+"""
+
 from transformers import pipeline
 from transformers.models.m2m_100.tokenization_m2m_100 import M2M100Tokenizer
 
 class M2M100Translator:
+    # 使用 facebook/m2m100_418M 模型，這是一個相對較小但效果不錯的多語言翻譯模型
     MODEL_NAME = "facebook/m2m100_418M"
+    # 支持的語言及其對應的語言代碼
     LANG_CODES = {"中文": "zh", "英文": "en", "日文": "ja", "韓文": "ko", "泰文": "th"}
 
     def __init__(self):
+        # 初始化翻譯管道和分詞器
         self.translator = pipeline("translation", model=self.MODEL_NAME)
         self.tokenizer = M2M100Tokenizer.from_pretrained(self.MODEL_NAME)
 
@@ -47,8 +76,13 @@ class M2M100Translator:
                     print(f"翻譯成 {target_lang}: {translated}")
 
 def main():
+    # 創建翻譯器實例
     translator = M2M100Translator()
+    # 運行測試翻譯，展示不同語言間的翻譯效果
     translator.test_translations()
 
 if __name__ == "__main__":
     main()
+
+# 要運行這個腳本，請使用以下命令：
+# uv run m2m100.py
