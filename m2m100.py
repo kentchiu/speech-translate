@@ -38,4 +38,3 @@ for source_lang, source_text in test_sentences.items():
         if source_lang != target_lang:
             translated = translate(source_text, source_lang, target_lang)
             print(f"翻譯成 {target_lang}: {translated}")
-
