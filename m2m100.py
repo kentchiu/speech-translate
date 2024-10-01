@@ -16,9 +16,10 @@ class M2M100Translator:
     3. 使用 test_translations 方法測試不同語言間的翻譯
     """
 
-    MODEL_NAME = "facebook/m2m100_418M"
+    # MODEL_NAME = "facebook/m2m100_418M"
+    MODEL_NAME = "facebook/m2m100_1.2B"
     # 支持的語言及其對應的語言代碼
-    LANG_CODES = {"中文": "zh", "英文": "en", "日文": "ja", "韓文": "ko", "泰文": "th"}
+    LANG_CODES = {"zh": "zh", "en": "en", "ja": "ja", "ko": "ko", "th": "th"}
 
     def __init__(self):
         self.translator = pipeline("translation", model=self.MODEL_NAME)
@@ -30,28 +31,38 @@ class M2M100Translator:
 
         Args:
             text (str): 要翻譯的文本
-            source_lang (str): 源語言
+            source_lang (str): 來源語言
             target_lang (str): 目標語言
 
         Returns:
             str: 翻譯後的文本
         """
-        self.tokenizer.src_lang = self.LANG_CODES[source_lang]
+        self.tokenizer.src_lang = self.to_language_code(source_lang)
 
         translated = self.translator(
             text,
-            src_lang=self.LANG_CODES[source_lang],
-            tgt_lang=self.LANG_CODES[target_lang],
+            src_lang=self.to_language_code(source_lang),
+            tgt_lang=self.to_language_code(target_lang),
         )
         return translated[0]["translation_text"]
 
+    def to_language_code(self, language: str) -> str:
+        """
+        將語言名稱轉換為語言代碼。
+        Args:
+            language (str): 語言名稱
+        Returns:
+            str: 語言代碼
+        """
+        return self.LANG_CODES[language]
+
     def test_translations(self):
         test_sentences = {
-            "中文": "今天天气真好。",
-            "英文": "The weather is nice today.",
-            "日文": "今日の天気はとても良いです。",
-            "韓文": "오늘 날씨가 정말 좋습니다.",
-            "泰文": "วันนี้อากาศดีจริงๆ",
+            "zh": "今天天气真好。",
+            "en": "The weather is nice today.",
+            "ja": "今日の天気はとても良いです。",
+            "ko": "오늘 날씨가 정말 좋습니다.",
+            "th": "วันนี้อากาศดีจริงๆ",
         }
 
         for source_lang, source_text in test_sentences.items():
